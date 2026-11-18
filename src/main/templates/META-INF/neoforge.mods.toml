@@ -76,7 +76,12 @@ Example mod description.
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT, or SERVER
     side="BOTH"
-
+[[dependencies.${mod_id}]]
+    modId="projecte"
+    type="required"
+    versionRange="[1,)"
+    orderine="AFTER"
+    side="BOTH"
 # Here's another dependency
 [[dependencies.${mod_id}]]
     modId="minecraft"
