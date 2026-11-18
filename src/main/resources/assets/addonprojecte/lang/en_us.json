@@ -1,0 +1,13 @@
+{
+  "itemGroup.addonprojecte": "Example Mod Tab",
+  "block.addonprojecte.example_block": "Example Block",
+  "item.addonprojecte.example_item": "Example Item",
+
+  "addonprojecte.configuration.title": "addon project e Configs",
+  "addonprojecte.configuration.section.addonprojecte.common.toml": "addon project e Configs",
+  "addonprojecte.configuration.section.addonprojecte.common.toml.title": "addon project e Configs",
+  "addonprojecte.configuration.items": "Item List",
+  "addonprojecte.configuration.logDirtBlock": "Log Dirt Block",
+  "addonprojecte.configuration.magicNumberIntroduction": "Magic Number Text",
+  "addonprojecte.configuration.magicNumber": "Magic Number"
+}
