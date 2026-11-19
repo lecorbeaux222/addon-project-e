@@ -10,5 +10,6 @@
   "addonprojecte.configuration.logDirtBlock": "Log Dirt Block",
   "addonprojecte.configuration.magicNumberIntroduction": "Magic Number Text",
   "addonprojecte.configuration.magicNumber": "Magic Number",
-  "item.addonprojecte.test_ingot": "Test Ingot"
+  "item.addonprojecte.test_ingot": "Test Ingot",
+  "block.addonprojecte.test_machine": "Test Machine"
 }

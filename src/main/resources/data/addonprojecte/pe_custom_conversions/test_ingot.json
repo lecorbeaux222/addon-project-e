@@ -1,0 +1,10 @@
+{
+  "comment": "emc de mes items",
+  "values": {
+    "before": [{
+      "type": "projecte:item",
+      "id": "addonprojecte:test_ingot",
+      "emc_value": 1000
+    }]
+  }
+}

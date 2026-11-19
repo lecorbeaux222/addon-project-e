@@ -1,5 +1,6 @@
 package com.addon.project;
 
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -31,6 +32,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Supplier;
+
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(addonprojecte.MODID)
 public class addonprojecte {
@@ -56,6 +59,15 @@ public class addonprojecte {
 
     public static final DeferredItem<Item> TEST_INGOT = ITEMS.registerSimpleItem("test_ingot", new Item.Properties());
 
+    public static final DeferredBlock<TestBlock> TEST_MACHINE = BLOCKS.register("test_machine",
+            () -> new TestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f)));
+    public static final DeferredItem<BlockItem> TEST_MACHINE_ITEM = ITEMS.registerSimpleBlockItem("test_machine", TEST_MACHINE);
+
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTIIES =
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
+    public static final Supplier<BlockEntityType<TestBlockEntity>> TEST_BLOCK_ENTITY =
+            BLOCK_ENTIIES.register("test_machine",
+                    () -> BlockEntityType.Builder.of(TestBlockEntity::new, TEST_MACHINE.get()).build(null));
     // Creates a creative tab with the id "addonprojecte:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.addonprojecte")) //The language key for the title of your CreativeModeTab
@@ -63,6 +75,7 @@ public class addonprojecte {
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(TEST_INGOT.get());
+                output.accept(TEST_MACHINE_ITEM.get());
                 output.accept(EXAMPLE_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
@@ -78,6 +91,8 @@ public class addonprojecte {
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        BLOCK_ENTIIES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (addonprojecte) to respond directly to events.
