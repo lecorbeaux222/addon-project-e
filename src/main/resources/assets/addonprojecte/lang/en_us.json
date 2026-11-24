@@ -1,5 +1,5 @@
 {
-  "itemGroup.addonprojecte": "Example Mod Tab",
+  "itemGroup.addonprojecte": "project experience",
   "block.addonprojecte.example_block": "Example Block",
   "item.addonprojecte.example_item": "Example Item",
 
@@ -11,5 +11,6 @@
   "addonprojecte.configuration.magicNumberIntroduction": "Magic Number Text",
   "addonprojecte.configuration.magicNumber": "Magic Number",
   "item.addonprojecte.test_ingot": "Test Ingot",
+  "block.addonprojecte.output_machine": "output machine",
   "block.addonprojecte.test_machine": "Test Machine"
 }

@@ -1,6 +1,8 @@
 package com.addon.project;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -63,11 +65,19 @@ public class addonprojecte {
             () -> new TestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f)));
     public static final DeferredItem<BlockItem> TEST_MACHINE_ITEM = ITEMS.registerSimpleBlockItem("test_machine", TEST_MACHINE);
 
+    public static final DeferredBlock<OutputBlock> OUTPUT_MACHINE = BLOCKS.register("output_machine",
+            () -> new OutputBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f)));
+
+    public static final DeferredItem<BlockItem> OUTPUT_MACHINE_ITEM = ITEMS.registerSimpleBlockItem("output_machine", OUTPUT_MACHINE);
+
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTIIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
     public static final Supplier<BlockEntityType<TestBlockEntity>> TEST_BLOCK_ENTITY =
             BLOCK_ENTIIES.register("test_machine",
                     () -> BlockEntityType.Builder.of(TestBlockEntity::new, TEST_MACHINE.get()).build(null));
+    public static final Supplier<BlockEntityType<OutputBlockEntity>> OUTPUT_BLOCK_ENTITY=
+            BLOCK_ENTIIES.register("output_machine",
+                    () -> BlockEntityType.Builder.of(OutputBlockEntity::new, OUTPUT_MACHINE.get()).build(null));
     // Creates a creative tab with the id "addonprojecte:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.addonprojecte")) //The language key for the title of your CreativeModeTab
@@ -75,6 +85,7 @@ public class addonprojecte {
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(TEST_INGOT.get());
+                output.accept(OUTPUT_MACHINE_ITEM.get());
                 output.accept(TEST_MACHINE_ITEM.get());
                 output.accept(EXAMPLE_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
@@ -93,6 +104,7 @@ public class addonprojecte {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         BLOCK_ENTIIES.register(modEventBus);
+        modEventBus.addListener(this::registerCapabilities);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (addonprojecte) to respond directly to events.
@@ -117,6 +129,20 @@ public class addonprojecte {
         LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
 
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
+    }
+
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                TEST_BLOCK_ENTITY.get(),
+                (be, side) -> be.getInventory()
+        );
+
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                OUTPUT_BLOCK_ENTITY.get(),
+                (be, side) -> new ExtractOnlyHandler(be.getBuffer())
+        );
     }
 
     // Add the example block item to the building blocks tab
